@@ -1,0 +1,39 @@
+server:
+  port: 8080
+ 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka 
+      
+
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedHeaders:
+              - content-type
+            allowedMethods:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+      routes:
+      - id: avionService
+        uri: lb://AVION
+        predicates:
+        - Path=/great_team/avion/**
+      - id: employeeModule
+        uri: lb://PILOTE
+        predicates:
+        - Path=/great_team/pilote/**
+      - id: employeeModule
+        uri: lb://VOL
+        predicates:
+        - Path=/great_team/vol/**
